@@ -1,6 +1,8 @@
 ---
 title: "The Leslie Matrix - revisited"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -43,22 +45,22 @@ Add line-by-line comments wheres prompted in the code below, explaining what eac
 # ------ WHAT HAPPENS HERE? ------ #
 # ------ comment line-by-line ---- #
 
-# The line below...
+# The line below... make a sequence of years - set up the times that we will iterate through
 time_yr <- seq(from = 0, to = 8, by = 1)
 
-# The line below...
+# The line below... create an empty matrix with initial population structures across the top and years going down
 proj_year <- matrix(ncol = length(fish_year0), nrow = length(time_yr))
 
-# The line below...
+# The line below... assign initial population to the first row
 proj_year[1, ] <- fish_year0
 
-# The for loop below...
+# The for loop below... for the rest of the rows, use the dot product to calculate the next years population
 for (i in 2:length(time_yr)) {
   proj_year[i,] <- fish_leslie %*% proj_year[i-1,]
 }
 
 
-# The rest is wrangling & visualization (run to check it out):
+# The rest is wrangling & visualization (run to check it out): 
 colnames(proj_year) <- c("eggs", "fry", "juvenile", "adult")
 
 proj_df <- data.frame(time_yr, proj_year) %>% 
